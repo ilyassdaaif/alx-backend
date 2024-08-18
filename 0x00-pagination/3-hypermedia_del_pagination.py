@@ -41,11 +41,11 @@ class Server:
 
     def get_hyper_index(
         self, index: int = None, page_size: int = 10
-        ) -> Dict[str, Any]:
+    ) -> Dict[str, Any]:
         """Returns a dictionary with the hypermedia pagination information."""
         dataset = self.indexed_dataset()
         dataset_size = len(dataset)
-    
+
         # Ensure the index is within valid range
         assert isinstance(index, int) and 0 <= index < dataset_size
 
@@ -57,9 +57,9 @@ class Server:
             if current_index in dataset:
                 data.append(dataset[current_index])
             current_index += 1
-                
+
         next_index = current_index
-                
+
         return {
             'index': index,
             'next_index': next_index,
