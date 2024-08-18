@@ -7,6 +7,7 @@ import csv
 import math
 from typing import List, Dict, Any
 
+
 class Server:
     """Server class to paginate a database of popular baby names.
     """
@@ -38,29 +39,34 @@ class Server:
             }
         return self.__indexed_dataset
 
-    def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict[str, Any]:
+    def get_hyper_index(
+        self, index: int = None, page_size: int = 10
+        ) -> Dict[str, Any]:
         """Returns a dictionary with the hypermedia pagination information."""
-        assert isinstance(index, int) and index in self.__indexed_dataset
+        dataset = self.indexed_dataset()
+        dataset_size = len(dataset)
+    
+        # Ensure the index is within valid range
+        assert isinstance(index, int) and 0 <= index < dataset_size
 
         data = []
         current_index = index
-        dataset_size = len(self.__indexed_dataset)
 
-        for _ in range(page_size):
-            while current_index not in self.__indexed_dataset and current_index < dataset_size:
-                current_index += 1
-            if current_index < dataset_size:
-                data.append(self.__indexed_dataset[current_index])
-                current_index += 1
-
-        next_index = current_index if current_index < dataset_size else None
-
+        # Skip missing entries in the dataset
+        while len(data) < page_size and current_index < dataset_size:
+            if current_index in dataset:
+                data.append(dataset[current_index])
+            current_index += 1
+                
+        next_index = current_index
+                
         return {
-            "index": index,
-            "next_index": next_index,
-            "page_size": len(data),
-            "data": data
+            'index': index,
+            'next_index': next_index,
+            'page_size': len(data),
+            'data': data
         }
+
 
 def index_range(page: int, page_size: int) -> tuple:
     """Calculate the start and end indexes for pagination"""
