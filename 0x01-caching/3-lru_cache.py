@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """
 3-lru_cache.py
 """
@@ -27,6 +27,8 @@ class LRUCache(BaseCaching):
         if key in self.cache_data:
             self.keys_order.remove(key)
         self.keys_order.append(key)
+
+        self.cache_data[key] = item
 
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
             lru_key = self.keys_order.pop(0)
