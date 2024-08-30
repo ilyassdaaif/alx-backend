@@ -29,6 +29,9 @@ users = {
 
 
 def get_user():
+    """
+    Retrieves the user information based on the 'login_as' query parameter.
+    """
     user_id = request.args.get('login_as')
     if user_id:
         return users.get(int(user_id))
@@ -37,12 +40,15 @@ def get_user():
 
 @app.before_request
 def before_request():
+    """
+    A Flask before_request function that is executed before every request.
+    """
     g.user = get_user()
 
 
 @babel.localeselector
 def get_locale():
-    """ """
+    """Determines the best locale to use for the current request."""
     # Check URL parameter
     locale = request.args.get('locale')
     if locale in app.config['LANGUAGES']:
@@ -60,6 +66,9 @@ def get_locale():
 
 @app.route('/')
 def index():
+    """
+    Renders the index page for the application
+    """
     return render_template('6-index.html')
 
 
