@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Use user locale"""
+"""
+This module implement an i18n (internationalization) system using Flask
+and Flask-Babel.
+It provides functionality to support multiple languages, user-specific
+locales, and localized templates.
+"""
 
 from flask import Flask, render_template, request, g
 from flask_babel import Babel
